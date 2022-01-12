@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Unity.Collections;
@@ -483,7 +483,7 @@ namespace Unity.Physics
                     {
                         hadHit |= leafProcessor.DistanceLeaf(input, hitData[i], ref collector);
 
-                        if (collector.EarlyOutOnFirstHit && hadHit)
+                        if ((collector.EarlyOutOnFirstHit && hadHit) || collector.Capacity <= collector.NumHits)
                         {
                             return true;
                         }

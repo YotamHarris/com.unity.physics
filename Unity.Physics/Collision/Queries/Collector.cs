@@ -75,6 +75,8 @@ namespace Unity.Physics
         // The number of hits that have been collected
         int NumHits { get; }
 
+        int Capacity { get; }
+
         // Called when the query hits something
         // Return true to accept the hit, or false to ignore it
         bool AddHit(T hit);
@@ -86,6 +88,7 @@ namespace Unity.Physics
         public bool EarlyOutOnFirstHit => true;
         public float MaxFraction { get; }
         public int NumHits => 0;
+        public int Capacity => 1;
 
         public AnyHitCollector(float maxFraction)
         {
@@ -112,6 +115,8 @@ namespace Unity.Physics
 
         private T m_ClosestHit;
         public T ClosestHit => m_ClosestHit;
+
+        public int Capacity => int.MaxValue;
 
         public ClosestHitCollector(float maxFraction)
         {
@@ -140,11 +145,11 @@ namespace Unity.Physics
         public bool EarlyOutOnFirstHit => false;
         public float MaxFraction { get; }
         public int NumHits => AllHits.Length;
-
+        public int Capacity => AllHits.Capacity;
         public NativeList<T> AllHits;
 
         public AllHitsCollector(float maxFraction, ref NativeList<T> allHits)
-        {
+        {            
             MaxFraction = maxFraction;
             AllHits = allHits;
         }
@@ -174,6 +179,8 @@ namespace Unity.Physics
         public float MaxFraction => Collector.MaxFraction;
 
         public int NumHits => Collector.NumHits;
+
+        public int Capacity => Collector.Capacity;
 
         // Todo: have a QueryInteraction field here, and filter differently based on it in AddHit()
         // at the moment, this collector will only get constructed if IgnoreTriggers interaction is selected
